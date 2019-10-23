@@ -1,2 +1,5 @@
 # FFMPEGImagesToVideo
-Convert images to video using FFMPEG.
+
+Convert images to video from Unity using FFMPEG.
+
+
