@@ -13,6 +13,9 @@ public class FFMPEGImagesToVideo : MonoBehaviour
 	public float framerate = 50;
 	public int compression = 0;
 	public bool convertOnQuit = true;
+	public bool useAudio = false;
+	public float audioStartTime = 0;
+	public string audioPath = "";
 
 	private void OnApplicationQuit() {
 
@@ -27,7 +30,13 @@ public class FFMPEGImagesToVideo : MonoBehaviour
 			File.Delete(workingDirectory + "/" + outputName);
 
 		//Launch ffmpeg conversion
-		string command = "ffmpeg -framerate "+framerate+" -i "+inputName+" -crf "+compression+" -pix_fmt yuv420p "+outputName;
+		string command = "ffmpeg -framerate " + framerate + " -i " + inputName;
+
+		if (useAudio) {
+			command += " -ss " + audioStartTime + " -i " + audioPath + " -c:a copy -shortest ";
+		}
+
+		command += " -crf " + compression + " -pix_fmt yuv420p "+ outputName;
 
 		ShellHelper.ProcessCommand(command, workingDirectory);
 	}

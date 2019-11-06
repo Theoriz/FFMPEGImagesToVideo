@@ -17,6 +17,9 @@ public class FFMPEGImagesToVideoEditor : Editor
 	SerializedProperty framerate;
 	SerializedProperty compression;
 	SerializedProperty convertOnQuit;
+	SerializedProperty useAudio;
+	SerializedProperty audioPath;
+	SerializedProperty audioStartTime;
 
 	private void OnEnable() {
 
@@ -28,6 +31,9 @@ public class FFMPEGImagesToVideoEditor : Editor
 		framerate = serializedObject.FindProperty("framerate");
 		compression = serializedObject.FindProperty("compression");
 		convertOnQuit = serializedObject.FindProperty("convertOnQuit");
+		useAudio = serializedObject.FindProperty("useAudio");
+		audioPath = serializedObject.FindProperty("audioPath");
+		audioStartTime = serializedObject.FindProperty("audioStartTime");
 	}
 
 	public override void OnInspectorGUI() {
@@ -37,7 +43,7 @@ public class FFMPEGImagesToVideoEditor : Editor
 		serializedObject.Update();
 
 		EditorGUILayout.BeginVertical("HelpBox");
-		EditorGUILayout.LabelField("Directory Settings", EditorStyles.boldLabel);
+		EditorGUILayout.LabelField("Video Settings", EditorStyles.boldLabel);
 
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.PropertyField(workingDirectory);
@@ -51,6 +57,23 @@ public class FFMPEGImagesToVideoEditor : Editor
 			EditorGUILayout.HelpBox("A file with that name already exists.", MessageType.Warning);
 
 		EditorGUILayout.PropertyField(overwrite);
+
+		EditorGUILayout.EndVertical();
+
+		EditorGUILayout.BeginVertical("HelpBox");
+
+		EditorGUILayout.LabelField("Audio Settings", EditorStyles.boldLabel);
+
+		EditorGUILayout.PropertyField(useAudio);
+
+		if (useAudio.boolValue) {
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.PropertyField(audioPath);
+			if (GUILayout.Button("Browse")) { audioPath.stringValue = EditorUtility.OpenFilePanel("Audio File", "", ""); }
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.PropertyField(audioStartTime);
+		}
 
 		EditorGUILayout.EndVertical();
 
