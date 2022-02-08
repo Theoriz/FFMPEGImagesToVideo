@@ -30,7 +30,7 @@ public class FFMPEGImagesToVideo : MonoBehaviour
 			File.Delete(workingDirectory + "/" + outputName);
 
 		//Launch ffmpeg conversion
-		string command = "ffmpeg -framerate " + framerate + " -i " + inputName;
+		string command = "ffmpeg -framerate " + framerate + " -start_number "+ startingFrameNumber+ " -i " + inputName;
 
 		if (useAudio) {
 			command += " -ss " + audioStartTime + " -i " + audioPath + " -c:a copy -shortest ";
